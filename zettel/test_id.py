@@ -257,6 +257,11 @@ class TestIdNext(TestCase):
         n = a.next()
         self.assertEqual("200010111230", n.value)
 
+    def test_next_structure_end_of_hour(self):
+        a = Id("200010111259")
+        n = a.next()
+        self.assertEqual("200010111300", n.value)
+
 
 class TestIdParent(TestCase):
     def test_single_letter(self):

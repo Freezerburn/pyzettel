@@ -1,13 +1,14 @@
 from __future__ import annotations
-from datetime import datetime
+from datetime import datetime, timedelta
 
 SEPARATORS = {'.', '-', '/', '\\'}
+_STRUCTURE_ID_FORMAT = "%Y%m%d%H%M"
 
 
 class Id:
     @staticmethod
     def structure() -> Id:
-        return Id(datetime.now().strftime("%Y%m%d%H%M"))
+        return Id(datetime.now().strftime(_STRUCTURE_ID_FORMAT))
 
     @staticmethod
     def from_filename(name: str) -> Id:
@@ -24,7 +25,9 @@ class Id:
 
     def next(self) -> Id:
         if self.is_structure:
-            return Id(str(int(self.value) + 1))
+            d = datetime.strptime(self.value, _STRUCTURE_ID_FORMAT)
+            d = d + timedelta(minutes=1)
+            return Id(d.strftime(_STRUCTURE_ID_FORMAT))
         return Id(self.parts[-1].next())
 
     def parent(self) -> Id:

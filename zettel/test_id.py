@@ -243,6 +243,16 @@ class TestIdNext(TestCase):
         self.assertEqual("b", repr(n.parts[1]))
         self.assertEqual("0..b", n.value)
 
+    def test_next_structure(self):
+        a = Id("200010111223")
+        n = a.next()
+        self.assertEqual("200010111224", n.value)
+
+    def test_next_structure_with_last_9(self):
+        a = Id("200010111229")
+        n = a.next()
+        self.assertEqual("200010111230", n.value)
+
 
 class TestIdParent(TestCase):
     def test_single_letter(self):

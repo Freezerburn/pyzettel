@@ -1,15 +1,26 @@
 from __future__ import annotations
+from datetime import datetime
 
 SEPARATORS = {'.', '-', '/', '\\'}
 
 
 class Id:
+    @staticmethod
+    def structure():
+        return Id(datetime.now().strftime("%Y%m%d%H%M"))
+
     def __init__(self, value: str):
         self.value = value
-        self.parts = self._parse()
-        self.has_parent = len(self.parts) > 1
+        self.is_structure = len(value) >= 12 and value.isdigit()
+        if not self.is_structure:
+            self.parts = self._parse()
+            self.has_parent = len(self.parts) > 1
+        else:
+            self.has_parent = False
 
     def next(self):
+        if self.is_structure:
+            return Id(str(int(self.value) + 1))
         return Id(self.parts[-1].next())
 
     def parent(self) -> Id:

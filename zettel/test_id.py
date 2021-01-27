@@ -73,6 +73,10 @@ class TestIdParse(TestCase):
         self.assertEqual("0", repr(a.parts[0]))
         self.assertEqual("a", repr(a.parts[1]))
 
+    def test_from_filename(self):
+        a = Id.from_filename("200010111213 my test note.md")
+        self.assertEqual("200010111213", a.value)
+
 
 class TestIdNext(TestCase):
     def test_single_letter(self):

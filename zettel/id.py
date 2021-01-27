@@ -6,8 +6,12 @@ SEPARATORS = {'.', '-', '/', '\\'}
 
 class Id:
     @staticmethod
-    def structure():
+    def structure() -> Id:
         return Id(datetime.now().strftime("%Y%m%d%H%M"))
+
+    @staticmethod
+    def from_filename(name: str) -> Id:
+        return Id(name.split(' ')[0])
 
     def __init__(self, value: str):
         self.value = value
@@ -18,7 +22,7 @@ class Id:
         else:
             self.has_parent = False
 
-    def next(self):
+    def next(self) -> Id:
         if self.is_structure:
             return Id(str(int(self.value) + 1))
         return Id(self.parts[-1].next())

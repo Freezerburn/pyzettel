@@ -6,17 +6,10 @@ SEPARATORS = {'.', '-', '/', '\\'}
 class Id:
     def __init__(self, value: str):
         self.value = value
-        self.is_scratch = value == SCRATCH_ID_VALUE
-        if not self.is_scratch:
-            for c in self.value:
-                if not c.isalnum() and c not in SEPARATORS:
-                    raise ValueError(f"All characters in {value} must be alphanumeric or a known separator.")
         self.parts = self._parse()
         self.has_parent = len(self.parts) > 1
 
     def next(self):
-        if self.is_scratch:
-            raise ValueError("Cannot get the next Id of a scratch Id.")
         return Id(self.parts[-1].next())
 
     def parent(self) -> Id:
@@ -241,7 +234,3 @@ class IdPart:
 
     def __repr__(self):
         return self.id_str()
-
-
-SCRATCH_ID_VALUE = "**SCRATCH**"
-SCRATCH_ID = Id(SCRATCH_ID_VALUE)
